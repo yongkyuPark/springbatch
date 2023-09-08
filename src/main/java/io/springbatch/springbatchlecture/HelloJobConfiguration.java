@@ -2,6 +2,7 @@ package io.springbatch.springbatchlecture;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.support.DefaultBatchConfiguration;
@@ -19,28 +20,30 @@ import org.springframework.jdbc.support.JdbcTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
 public class HelloJobConfiguration {
 
-    @Bean
-    public DataSource batchDataSource() {
-        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
-                .addScript("/org/springframework/batch/core/schema-h2.sql")
-                .generateUniqueName(true).build();
-    }
+//    @Bean
+//    public DataSource batchDataSource() {
+//        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
+//                .addScript("/org/springframework/batch/core/schema-h2.sql")
+//                .generateUniqueName(true).build();
+//    }
+//
+//    @Bean
+//    public JdbcTransactionManager batchTransactionManager(DataSource dataSource) {
+//        return new JdbcTransactionManager(dataSource);
+//    }
 
     @Bean
-    public JdbcTransactionManager batchTransactionManager(DataSource dataSource) {
-        return new JdbcTransactionManager(dataSource);
-    }
-
-    @Bean
-    public Job helloJob(JobRepository jobRepository, Step helloStep1, Step helloStep2) {
+    public Job helloJob(JobRepository jobRepository, Step helloStep1, Step helloStep2, Step customStep) {
         return new JobBuilder("helloJob", jobRepository)
                 .start(helloStep1)
                 .next(helloStep2)
+                .next(customStep)
                 .build();
     }
 
@@ -50,6 +53,12 @@ public class HelloJobConfiguration {
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+
+                        // 파라미터 가져오기
+                        JobParameters jobParameters = contribution.getStepExecution().getJobExecution().getJobParameters();
+
+                        Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
+
                         System.out.println(" =======================");
                         System.out.println(" >> Hello Spring Batch!!");
                         System.out.println(" =======================");
@@ -63,16 +72,21 @@ public class HelloJobConfiguration {
     @Bean
     public Step helloStep2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("helloStep2", jobRepository)
-                .tasklet(new Tasklet() {
-                    @Override
-                    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-                        System.out.println(" =======================");
-                        System.out.println(" >> step2 was executed");
-                        System.out.println(" =======================");
+                .tasklet((contribution, chunkContext) -> {
 
-                        return RepeatStatus.FINISHED;
-                    }
+                    System.out.println(" =======================");
+                    System.out.println(" >> step2 was executed");
+                    System.out.println(" =======================");
+
+                    return RepeatStatus.FINISHED;
                 }, platformTransactionManager)
+                .build();
+    }
+
+    @Bean
+    public Step customStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
+        return new StepBuilder("customStep", jobRepository)
+                .tasklet(new CustomTasklet(), platformTransactionManager)
                 .build();
     }
 }
