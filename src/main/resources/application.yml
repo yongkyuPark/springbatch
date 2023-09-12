@@ -1,6 +1,13 @@
 spring:
   profiles:
     active: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
 
 ---
 spring:
@@ -27,9 +34,10 @@ spring:
       jdbc-url: jdbc:mysql://localhost:3306/yongkyu_db?useUnicode=true&characterEncoding=utf8
       username: test
       password: 1234
-      driver-class-name: com.mysql.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
   batch:
     jdbc:
       initialize-schema: always
     job:
-      enabled: false
+      ##enabled: false
+      name: ${job.name:NONE}

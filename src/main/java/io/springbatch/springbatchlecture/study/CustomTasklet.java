@@ -1,4 +1,4 @@
-package io.springbatch.springbatchlecture;
+package io.springbatch.springbatchlecture.study;
 
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -11,6 +11,10 @@ public class CustomTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         System.out.println("custom executed!!!");
+        String stepName = contribution.getStepExecution().getStepName();
+        String jobName = chunkContext.getStepContext().getJobName();
+        System.out.println("stepName = " + stepName);
+        System.out.println("jobName = " + jobName);
 
         return RepeatStatus.FINISHED;
     }

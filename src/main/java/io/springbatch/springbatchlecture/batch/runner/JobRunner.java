@@ -1,4 +1,4 @@
-package io.springbatch.springbatchlecture;
+package io.springbatch.springbatchlecture.batch.runner;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -20,18 +20,15 @@ public class JobRunner implements ApplicationRunner {
     private JobLauncher jobLauncher;
 
     @Autowired
-    private Job job;
+    private Job fileJob;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("name", "user1")
-//                .addLong("seq", 2L)
-//                .addDate("date", new Date())
-//                .addDouble("age", 16.5)
+                .addString("requestDate", "20230912")
                 .toJobParameters();
 
-        jobLauncher.run(job, jobParameters);
+        //jobLauncher.run(fileJob, jobParameters);
     }
 }
