@@ -6,8 +6,10 @@ import org.springframework.batch.core.configuration.support.JobRegistryBeanPostP
 import org.springframework.batch.core.repository.ExecutionContextSerializer;
 import org.springframework.batch.core.repository.dao.Jackson2ExecutionContextStringSerializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 @EnableBatchProcessing(executionContextSerializerRef = "jacksonSerializer")
+@Configuration
 public class BatchConfig {
 
     @Bean

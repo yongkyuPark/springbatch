@@ -1,0 +1,36 @@
+package io.springbatch.springbatchlecture.batch.chunk.writer;
+
+import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.batch.domain.ApiResponseVO;
+import io.springbatch.springbatchlecture.service.AbstractApiService;
+import org.springframework.batch.item.Chunk;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
+import org.springframework.core.io.FileSystemResource;
+
+import java.util.List;
+
+public class ApiItemWriter2 extends FlatFileItemWriter<ApiRequestVO> {
+
+    private final AbstractApiService apiService;
+
+    public ApiItemWriter2(AbstractApiService apiService) {
+        this.apiService = apiService;
+    }
+
+    @Override
+    public void write(Chunk<? extends ApiRequestVO> chunk) throws Exception {
+        ApiResponseVO responseVO = apiService.service(chunk.getItems());
+        System.out.println("responseVO = " + responseVO);
+
+        chunk.getItems().forEach(item -> item.setApiResponseVO(responseVO));
+
+        super.setResource(new FileSystemResource("/Users/yongkyu/springbatchstudy/springbatchlecture/src/main/resources/product2.txt"));
+        super.open(new ExecutionContext());
+        super.setLineAggregator(new DelimitedLineAggregator<>()); // 구분자 방식
+        super.setAppendAllowed(true); // 추가
+        super.write(chunk);
+    }
+}
