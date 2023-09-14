@@ -5,7 +5,6 @@ import io.springbatch.springbatchlecture.batch.domain.ApiResponseVO;
 import io.springbatch.springbatchlecture.service.AbstractApiService;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.core.io.FileSystemResource;

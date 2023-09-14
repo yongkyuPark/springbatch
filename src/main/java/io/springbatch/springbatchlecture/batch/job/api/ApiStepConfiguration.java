@@ -130,7 +130,6 @@ public class ApiStepConfiguration {
         processorMap.put("3", new ApiItemProcessor3());
 
         classifier.setProcessorMap(processorMap);
-
         processor.setClassifier(classifier);
 
         return processor;

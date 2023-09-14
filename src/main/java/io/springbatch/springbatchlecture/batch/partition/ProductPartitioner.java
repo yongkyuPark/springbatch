@@ -20,6 +20,7 @@ public class ProductPartitioner implements Partitioner {
     @Override
     public Map<String, ExecutionContext> partition(int gridSize) {
 
+        // database 에서 type을 group by 해서 가져온다. type 기준으로 파티셔닝 하기 위해서
         ProductVO[] productList = QueryGenerator.getProductList(dataSource);
         Map<String, ExecutionContext> result = new HashMap<>();
 
@@ -29,7 +30,7 @@ public class ProductPartitioner implements Partitioner {
             ExecutionContext value = new ExecutionContext();
 
             result.put("partition" + number, value);
-            value.put("product", productList[i]);
+            value.put("product", productList[i]); // ExecutionContext에 type 정보 저장
 
             number++;
         }
