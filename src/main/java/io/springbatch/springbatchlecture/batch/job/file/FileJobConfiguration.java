@@ -55,8 +55,8 @@ public class FileJobConfiguration {
     public FlatFileItemReader<ProductVO> fileItemReader(@Value("#{jobParameters['requestDate']}") String requestDate) {
         return new FlatFileItemReaderBuilder<ProductVO>()
                 .name("flatFile")
-                .resource(new ClassPathResource("product_" + requestDate + ".csv"))
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<>())
+                .resource(new ClassPathResource("product_" + requestDate + ".csv")) // 클래스 패스에서 파일 리소스
+                .fieldSetMapper(new BeanWrapperFieldSetMapper<>()) // csv 파일에서 읽은 데이터를 ProductVO에 매핑
                 .targetType(ProductVO.class)
                 .linesToSkip(1)
                 .delimited().delimiter(",")
@@ -73,7 +73,7 @@ public class FileJobConfiguration {
     public ItemWriter<Product> fileItemWriter() {
         return new JpaItemWriterBuilder<Product>()
                 .entityManagerFactory(em)
-                .usePersist(true)
+                .usePersist(true) // 엔티티를 persist 할건지 설정, false면 merge 처리
                 .build();
     }
 

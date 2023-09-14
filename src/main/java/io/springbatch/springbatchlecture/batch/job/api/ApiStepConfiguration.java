@@ -54,18 +54,18 @@ public class ApiStepConfiguration {
     public Step apiMasterStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager,
                               Step apiSlaveStep) {
         return new StepBuilder("apiMasterStep", jobRepository)
-                .partitioner(apiSlaveStep.getName(), partitioner())
-                .step(apiSlaveStep)
-                .gridSize(3)
-                .taskExecutor(taskExecutor())
+                .partitioner(apiSlaveStep.getName(), partitioner()) // partitionStep 생성
+                .step(apiSlaveStep) // slave 역할을 하는 Step 설정
+                .gridSize(3)        // 몇개의 파티션으로 나눌 것인지
+                .taskExecutor(taskExecutor()) // 스레드 생성
                 .build();
     }
 
     @Bean
     public TaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(3);
-        taskExecutor.setMaxPoolSize(6);
+        taskExecutor.setCorePoolSize(3);  // 기본적으로 3개의 스레드 생성
+        taskExecutor.setMaxPoolSize(6);   // 스레드가 부족할 경우 최대 6개까지 스레드 생성
         taskExecutor.setThreadNamePrefix("api-thread-");
 
         return taskExecutor;
@@ -109,7 +109,7 @@ public class ApiStepConfiguration {
 
         reader.setParameterValues(QueryGenerator.getParameterForQuery("type", productVO.getType()));
         reader.setQueryProvider(queryProvider);
-        reader.afterPropertiesSet();
+        reader.afterPropertiesSet(); // reader 설정 후 초기화
 
         return reader;
 
@@ -117,10 +117,13 @@ public class ApiStepConfiguration {
 
     @Bean
     public ItemProcessor itemProcessor() {
+
+        // 입력받은 데이터를 기반으로 ItemProcessor를 구분하기 위한 로직
         ClassifierCompositeItemProcessor<ProductVO, ApiRequestVO> processor
                 = new ClassifierCompositeItemProcessor<>();
         ProcessorClassifier<ProductVO, ItemProcessor<?, ? extends ApiRequestVO>> classifier = new ProcessorClassifier();
 
+        // 각 키값과 ApiItemProcessor 들을 저장 (각 스레드마다 다른 프로세서를 태우기 위함)
         Map<String, ItemProcessor<ProductVO, ApiRequestVO>> processorMap = new HashMap<>();
         processorMap.put("1", new ApiItemProcessor1());
         processorMap.put("2", new ApiItemProcessor2());

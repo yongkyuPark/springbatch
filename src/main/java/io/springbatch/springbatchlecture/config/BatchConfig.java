@@ -12,6 +12,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BatchConfig {
 
+    /**
+     * Spring batch 4 에서는 기본적으로 executionContext에 데이터 저장할때 jacson2를 사용해서
+     * Json 형식으로 저장을 했지만 Spring batch 5 에서는 기본이 based 64 형식으로 저장되는걸로 바뀌어서
+     * 변환 처리를 해줘야한다.
+     */
     @Bean
     public ExecutionContextSerializer jacksonSerializer() {
         return new Jackson2ExecutionContextStringSerializer();
