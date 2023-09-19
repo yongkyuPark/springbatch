@@ -1,7 +1,7 @@
 package io.springbatch.springbatchlecture.batch.chunk.processor;
 
-import io.springbatch.springbatchlecture.batch.domain.Product;
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.aTest.entity.Product;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import org.modelmapper.ModelMapper;
 import org.springframework.batch.item.ItemProcessor;
 

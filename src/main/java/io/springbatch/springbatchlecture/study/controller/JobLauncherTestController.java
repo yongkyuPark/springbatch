@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 @RestController
-public class JobLauncherController {
+public class JobLauncherTestController {
 
 //    @Autowired
 //    private Job job;

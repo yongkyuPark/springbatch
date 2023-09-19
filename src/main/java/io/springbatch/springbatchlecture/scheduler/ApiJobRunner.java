@@ -22,11 +22,11 @@ public class ApiJobRunner extends JobRunner {
         JobDetail jobDetail = buildJobDetail(ApiSchJob.class, "apiJob", "batch", new HashMap<>());
         Trigger trigger = buildJobTrigger("0/10 * * * * ?");
 
-        try{
-            scheduler.scheduleJob(jobDetail, trigger);
-        }catch (SchedulerException e) {
-            e.printStackTrace();
-        }
+//        try{
+//            scheduler.scheduleJob(jobDetail, trigger);
+//        }catch (SchedulerException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

@@ -1,4 +1,4 @@
-package io.springbatch.springbatchlecture.batch.domain;
+package io.springbatch.springbatchlecture.domain;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package io.springbatch.springbatchlecture.batch.chunk.processor;
 
-import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import org.springframework.batch.item.ItemProcessor;
 
 public class ApiItemProcessor1 implements ItemProcessor<ProductVO, ApiRequestVO> {

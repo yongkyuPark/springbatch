@@ -1,8 +1,8 @@
 package io.springbatch.springbatchlecture.batch.job.file;
 
 import io.springbatch.springbatchlecture.batch.chunk.processor.FileItemProcessor;
-import io.springbatch.springbatchlecture.batch.domain.Product;
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.aTest.entity.Product;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -17,6 +17,8 @@ import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +29,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class FileJobConfiguration {
 
-    private final EntityManagerFactory em;
+    @Autowired
+    @Qualifier("mysqlEntityManagerFactory")
+    private EntityManagerFactory mysqlEntityManagerFactory;
 
     @Bean
     public Job fileJob(JobRepository jobRepository, Step fileStep) {
@@ -68,7 +72,7 @@ public class FileJobConfiguration {
     @Bean
     public ItemWriter<Product> fileItemWriter() {
         return new JpaItemWriterBuilder<Product>()
-                .entityManagerFactory(em)
+                .entityManagerFactory(mysqlEntityManagerFactory)
                 .usePersist(true) // 엔티티를 persist 할건지 설정, false면 merge 처리
                 .build();
     }

@@ -3,11 +3,16 @@ spring:
     active: local
   jpa:
     hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+      ddl-auto: none
+    #database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     properties:
       hibernate.format_sql: true
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
 
 ---
 spring:
@@ -30,11 +35,16 @@ spring:
     activate:
       on-profile: mysql
   datasource:
-    hikari:
+    mysql:
       jdbc-url: jdbc:mysql://localhost:3306/yongkyu_db?useUnicode=true&characterEncoding=utf8
       username: test
       password: 1234
       driver-class-name: com.mysql.cj.jdbc.Driver
+    postgresql:
+      jdbc-url: jdbc:postgresql://172.30.1.34:5432/goparts_app_dev
+      username: goparts_app
+      password: goparts_app0!
+      driver-class-name: org.postgresql.Driver
   batch:
     jdbc:
       # Batch에 사용되는 SQL 초기화 스크립트를 실행한다.
@@ -42,3 +52,5 @@ spring:
     job:
       enabled: false # 기본값 true는 Spring Boot 실행 시 등록되어 있는 Job들이 실행됩니다.
       name: ${job.name:NONE}
+
+

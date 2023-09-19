@@ -1,5 +1,6 @@
 package io.springbatch.springbatchlecture.batch.job.api;
 
+import io.springbatch.springbatchlecture.annotation.MysqlRepository;
 import io.springbatch.springbatchlecture.batch.chunk.processor.ApiItemProcessor1;
 import io.springbatch.springbatchlecture.batch.chunk.processor.ApiItemProcessor2;
 import io.springbatch.springbatchlecture.batch.chunk.processor.ApiItemProcessor3;
@@ -8,12 +9,13 @@ import io.springbatch.springbatchlecture.batch.chunk.writer.ApiItemWriter2;
 import io.springbatch.springbatchlecture.batch.chunk.writer.ApiItemWriter3;
 import io.springbatch.springbatchlecture.batch.classifier.ProcessorClassifier;
 import io.springbatch.springbatchlecture.batch.classifier.WriterClassifier;
-import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import io.springbatch.springbatchlecture.batch.partition.ProductPartitioner;
 import io.springbatch.springbatchlecture.service.ApiService1;
 import io.springbatch.springbatchlecture.service.ApiService2;
 import io.springbatch.springbatchlecture.service.ApiService3;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -27,11 +29,14 @@ import org.springframework.batch.item.database.Order;
 import org.springframework.batch.item.database.support.MySqlPagingQueryProvider;
 import org.springframework.batch.item.support.ClassifierCompositeItemProcessor;
 import org.springframework.batch.item.support.ClassifierCompositeItemWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
@@ -40,13 +45,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@RequiredArgsConstructor
 public class ApiStepConfiguration {
 
-    private final DataSource dataSource;
-    private final ApiService1 apiService1;
-    private final ApiService2 apiService2;
-    private final ApiService3 apiService3;
+    private DataSource dataSource;
+    private DataSource dataSource2;
+    private ApiService1 apiService1;
+    private ApiService2 apiService2;
+    private ApiService3 apiService3;
+
+    ApiStepConfiguration(ApiService1 apiService1,
+                         ApiService2 apiService2,
+                         ApiService3 apiService3,
+                         @Qualifier("mysqlDatasource") DataSource dataSource,
+                         @Qualifier("postgresqlDatasource") DataSource dataSource2
+    ) {
+        this.dataSource2 = dataSource2;
+        this.dataSource = dataSource;
+        this.apiService1 = apiService1;
+        this.apiService2 = apiService2;
+        this.apiService3 = apiService3;
+    }
 
     private int chunkSize = 10;
 
@@ -56,7 +74,7 @@ public class ApiStepConfiguration {
         return new StepBuilder("apiMasterStep", jobRepository)
                 .partitioner(apiSlaveStep.getName(), partitioner()) // partitionStep 생성
                 .step(apiSlaveStep) // slave 역할을 하는 Step 설정
-                .gridSize(3)        // 몇개의 파티션으로 나눌 것인지
+                .gridSize(2)        // 몇개의 파티션으로 나눌 것인지
                 .taskExecutor(taskExecutor()) // 스레드 생성
                 .build();
     }
@@ -74,6 +92,7 @@ public class ApiStepConfiguration {
     @Bean
     public Step apiSlaveStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) throws Exception {
         return new StepBuilder("apiSlaveStep", jobRepository)
+
                 .<ProductVO, ProductVO>chunk(chunkSize,platformTransactionManager)
                 .reader(itemReader(null))
                 .processor(itemProcessor())

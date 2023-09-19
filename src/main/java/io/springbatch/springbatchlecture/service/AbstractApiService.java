@@ -1,8 +1,8 @@
 package io.springbatch.springbatchlecture.service;
 
-import io.springbatch.springbatchlecture.batch.domain.ApiInfo;
-import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
-import io.springbatch.springbatchlecture.batch.domain.ApiResponseVO;
+import io.springbatch.springbatchlecture.domain.ApiInfo;
+import io.springbatch.springbatchlecture.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.domain.ApiResponseVO;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

@@ -1,7 +1,22 @@
-### Send POST request with json body
-POST http://localhost:8080/batch
+### fileJob 테스트
+POST http://localhost:8080/job/fileJobLauncher
 Content-Type: application/json
 
 {
-  "id": "leaven"
+  "requestDate": "20230913"
 }
+
+### apiJob 테스트
+POST http://localhost:8080/job/apiJobLauncher
+Content-Type: application/json
+
+### moveJob 테스트
+POST http://localhost:8080/job/moveJobLauncher
+Content-Type: application/json
+
+
+
+
+
+
+

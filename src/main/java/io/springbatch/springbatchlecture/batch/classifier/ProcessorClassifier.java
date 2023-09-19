@@ -1,7 +1,7 @@
 package io.springbatch.springbatchlecture.batch.classifier;
 
-import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.classify.Classifier;
 

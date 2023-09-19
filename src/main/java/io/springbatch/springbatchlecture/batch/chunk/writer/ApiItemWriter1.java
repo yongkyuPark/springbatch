@@ -1,16 +1,13 @@
 package io.springbatch.springbatchlecture.batch.chunk.writer;
 
-import io.springbatch.springbatchlecture.batch.domain.ApiRequestVO;
-import io.springbatch.springbatchlecture.batch.domain.ApiResponseVO;
+import io.springbatch.springbatchlecture.domain.ApiRequestVO;
+import io.springbatch.springbatchlecture.domain.ApiResponseVO;
 import io.springbatch.springbatchlecture.service.AbstractApiService;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.core.io.FileSystemResource;
-
-import java.util.List;
 
 public class ApiItemWriter1 extends FlatFileItemWriter<ApiRequestVO> {
 

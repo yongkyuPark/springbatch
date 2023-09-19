@@ -25,13 +25,13 @@ public class FileJobRunner extends JobRunner {
         JobDetail jobDetail = buildJobDetail(FileSchJob.class, "fileJob", "batch", new HashMap<>());
         Trigger trigger = buildJobTrigger("0/50 * * * * ?");
         // todo argument에서 임시로 세팅한 데이터
-        jobDetail.getJobDataMap().put("requestDate", sourceArgs[0]);
+        //jobDetail.getJobDataMap().put("requestDate", sourceArgs[0]);
 
-        try{
-            scheduler.scheduleJob(jobDetail, trigger);
-        }catch (SchedulerException e) {
-            e.printStackTrace();
-        }
+//        try{
+//            scheduler.scheduleJob(jobDetail, trigger);
+//        }catch (SchedulerException e) {
+//            e.printStackTrace();
+//        }
     }
 
 }

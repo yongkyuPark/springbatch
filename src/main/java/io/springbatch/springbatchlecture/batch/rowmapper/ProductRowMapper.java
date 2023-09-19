@@ -1,6 +1,6 @@
 package io.springbatch.springbatchlecture.batch.rowmapper;
 
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

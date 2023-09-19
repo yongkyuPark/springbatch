@@ -1,7 +1,7 @@
 package io.springbatch.springbatchlecture.service;
 
-import io.springbatch.springbatchlecture.batch.domain.ApiInfo;
-import io.springbatch.springbatchlecture.batch.domain.ApiResponseVO;
+import io.springbatch.springbatchlecture.domain.ApiInfo;
+import io.springbatch.springbatchlecture.domain.ApiResponseVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

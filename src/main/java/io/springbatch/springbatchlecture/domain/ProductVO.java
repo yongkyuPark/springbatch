@@ -1,4 +1,4 @@
-package io.springbatch.springbatchlecture.batch.domain;
+package io.springbatch.springbatchlecture.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -17,5 +18,6 @@ public class ProductVO implements Serializable {
     private String name;
     private int price;
     private String type;
+    private String requestDate;
 
 }

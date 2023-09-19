@@ -1,6 +1,6 @@
 package io.springbatch.springbatchlecture.batch.job.api;
 
-import io.springbatch.springbatchlecture.batch.domain.ProductVO;
+import io.springbatch.springbatchlecture.domain.ProductVO;
 import io.springbatch.springbatchlecture.batch.rowmapper.ProductRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
