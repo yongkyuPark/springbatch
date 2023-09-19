@@ -1,5 +1,7 @@
 package io.springbatch.springbatchlecture.domain;
 
+import io.springbatch.springbatchlecture.aTest.entity.Product;
+import io.springbatch.springbatchlecture.aTest.entity.ProductDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,5 +21,23 @@ public class ProductVO implements Serializable {
     private int price;
     private String type;
     private String requestDate;
+
+    public Product toProduct() {
+        return Product.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .type(type)
+                .build();
+    }
+
+    public ProductDetail toProductDetail() {
+        return ProductDetail.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .type(type)
+                .build();
+    }
 
 }

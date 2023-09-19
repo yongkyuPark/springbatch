@@ -21,7 +21,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @RequiredArgsConstructor
-public class MoveJobConfiguration {
+public class MoveJobConfiguration2 {
 
 
     private final EntityManagerFactory mysqlEntityManagerFactory;
@@ -30,49 +30,52 @@ public class MoveJobConfiguration {
     @Qualifier("postgresqlEntityManagerFactory")
     private EntityManagerFactory postgresqlEntityManagerFactory;
 
+    @Autowired
+    @Qualifier("postgresqlTransactionManager")
+    private PlatformTransactionManager postgresqlTransactionManager;
+
     @Bean
-    public Job moveJob(JobRepository jobRepository, Step moveStep) {
-        return new JobBuilder("moveJob", jobRepository)
-                .start(moveStep)
+    public Job moveJobTest(JobRepository jobRepository, Step moveStep2) {
+        return new JobBuilder("moveJobTest", jobRepository)
+                .start(moveStep2)
                 .build();
     }
 
     @Bean
-    public Step moveStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
-        return new StepBuilder("moveStep", jobRepository)
-                .<TestEntity, Product>chunk(10, platformTransactionManager)
-                .reader(moveReader())
-                .processor(moveProcessor())
-                .writer(moveWriter())
+    public Step moveStep2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
+        return new StepBuilder("moveStep2", jobRepository)
+                .<Product, TestEntity>chunk(10, postgresqlTransactionManager)
+                .reader(moveReader2())
+                .processor(moveProcessor2())
+                .writer(moveWriter2())
                 .build();
     }
 
     @Bean
-    public ItemReader<TestEntity> moveReader() {
+    public ItemReader<Product> moveReader2() {
         // 데이터 조회
-        return new JpaPagingItemReaderBuilder<TestEntity>()
-                .name("reader")
-                .entityManagerFactory(postgresqlEntityManagerFactory)
+        return new JpaPagingItemReaderBuilder<Product>()
+                .name("reader2")
+                .entityManagerFactory(mysqlEntityManagerFactory)
                 .pageSize(10)
-                .queryString("SELECT t FROM TestEntity t")
+                .queryString("SELECT p FROM Product p")
                 .build();
     }
 
     @Bean
-    public ItemProcessor<TestEntity, Product> moveProcessor() {
-        return test -> Product.builder()
-                .id(test.getMberSn().longValue())
-                .type(test.getMberId())
-                .price(test.getMberSn())
-                .name(test.getMberNm())
+    public ItemProcessor<Product, TestEntity> moveProcessor2() {
+        return test -> TestEntity.builder()
+                .mberSn(test.getPrice())
+                .mberId(test.getName())
+                .adres(test.getType())
                 .build();
     }
 
     @Bean
-    public JpaItemWriter<Product> moveWriter() {
-        JpaItemWriter<Product> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(mysqlEntityManagerFactory);
-        writer.setUsePersist(true);
+    public JpaItemWriter<TestEntity> moveWriter2() {
+        JpaItemWriter<TestEntity> writer = new JpaItemWriter<>();
+        writer.setEntityManagerFactory(postgresqlEntityManagerFactory);
+        writer.setUsePersist(false);
         return writer;
     }
 

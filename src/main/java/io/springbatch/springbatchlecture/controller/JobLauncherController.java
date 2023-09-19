@@ -34,6 +34,8 @@ public class JobLauncherController {
 
     private final Job moveJob;
 
+    private final Job moveJobTest;
+
     private final JobExplorer jobExplorer;
 
 //    @PostMapping("/launcher")
@@ -106,6 +108,19 @@ public class JobLauncherController {
                 .toJobParameters();
 
         JobExecution run = jobLauncher.run(moveJob, jobParameters);
+
+        return run.getExitStatus();
+
+    }
+
+    @PostMapping("/moveJobLauncher2")
+    public ExitStatus moveJobLauncher2() throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException, JobParametersInvalidException, JobRestartException {
+
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addLong("id", new Date().getTime())
+                .toJobParameters();
+
+        JobExecution run = jobLauncher.run(moveJobTest, jobParameters);
 
         return run.getExitStatus();
 

@@ -2,6 +2,7 @@ package io.springbatch.springbatchlecture.batch.job.file;
 
 import io.springbatch.springbatchlecture.batch.chunk.processor.FileItemProcessor;
 import io.springbatch.springbatchlecture.aTest.entity.Product;
+import io.springbatch.springbatchlecture.batch.chunk.writer.CustomFileItemWriter;
 import io.springbatch.springbatchlecture.domain.ProductVO;
 import jakarta.persistence.EntityManagerFactory;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,8 @@ public class FileJobConfiguration {
     @Qualifier("mysqlEntityManagerFactory")
     private EntityManagerFactory mysqlEntityManagerFactory;
 
+    private final CustomFileItemWriter customFileItemWriter;
+
     @Bean
     public Job fileJob(JobRepository jobRepository, Step fileStep) {
         return new JobBuilder("fileJob", jobRepository)
@@ -43,10 +46,10 @@ public class FileJobConfiguration {
     @Bean
     public Step fileStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("fileStep", jobRepository)
-                .<ProductVO, Product>chunk(10, platformTransactionManager)
+                .<ProductVO, ProductVO>chunk(10, platformTransactionManager)
                 .reader(fileItemReader(null))
-                .processor(fileItemProcessor())
-                .writer(fileItemWriter())
+                //.processor(fileItemProcessor())
+                .writer(customFileItemWriter)
                 .build();
     }
 
@@ -69,12 +72,12 @@ public class FileJobConfiguration {
         return new FileItemProcessor();
     }
 
-    @Bean
-    public ItemWriter<Product> fileItemWriter() {
-        return new JpaItemWriterBuilder<Product>()
-                .entityManagerFactory(mysqlEntityManagerFactory)
-                .usePersist(true) // 엔티티를 persist 할건지 설정, false면 merge 처리
-                .build();
-    }
+//    @Bean
+//    public ItemWriter<Product> fileItemWriter() {
+//        return new JpaItemWriterBuilder<Product>()
+//                .entityManagerFactory(mysqlEntityManagerFactory)
+//                .usePersist(true) // 엔티티를 persist 할건지 설정, false면 merge 처리
+//                .build();
+//    }
 
 }
