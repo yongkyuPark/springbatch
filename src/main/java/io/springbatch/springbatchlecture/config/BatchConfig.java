@@ -8,7 +8,7 @@ import org.springframework.batch.core.repository.dao.Jackson2ExecutionContextStr
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@EnableBatchProcessing(dataSourceRef = "mysqlDatasource", transactionManagerRef = "mysqlTransactionManager",executionContextSerializerRef = "jacksonSerializer")
+//@EnableBatchProcessing(dataSourceRef = "mysqlDatasource", transactionManagerRef = "mysqlTransactionManager",executionContextSerializerRef = "jacksonSerializer")
 @Configuration
 public class BatchConfig {
 

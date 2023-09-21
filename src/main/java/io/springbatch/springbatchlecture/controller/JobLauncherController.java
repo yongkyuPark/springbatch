@@ -38,11 +38,13 @@ public class JobLauncherController {
 
     private final JobExplorer jobExplorer;
 
-//    @PostMapping("/launcher")
-//    public ExitStatus launchJob(@RequestBody JobLauncherRequestVO request) throws Exception {
-//        Job job = jobRegistry.getJob(request.getName());
-//        return this.jobLauncher.run(job, request.getJobParameters()).getExitStatus();
-//    }
+    private final JobRegistry jobRegistry;
+
+    @PostMapping("/launcher")
+    public ExitStatus launchJob(@RequestBody JobLauncherRequestVO request) throws Exception {
+        Job job = jobRegistry.getJob(request.getName());
+        return this.jobLauncher.run(job, request.getJobParameters()).getExitStatus();
+    }
 
     /**
      * 파일을 읽은 후 Product 테이블에 저장하는 잡

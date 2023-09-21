@@ -74,7 +74,7 @@ public class ApiStepConfiguration {
         return new StepBuilder("apiMasterStep", jobRepository)
                 .partitioner(apiSlaveStep.getName(), partitioner()) // partitionStep 생성
                 .step(apiSlaveStep) // slave 역할을 하는 Step 설정
-                .gridSize(2)        // 몇개의 파티션으로 나눌 것인지
+                .gridSize(3)        // 몇개의 파티션으로 나눌 것인지
                 .taskExecutor(taskExecutor()) // 스레드 생성
                 .build();
     }

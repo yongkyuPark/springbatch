@@ -23,7 +23,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 @RequiredArgsConstructor
 public class MoveJobConfiguration2 {
 
-
     private final EntityManagerFactory mysqlEntityManagerFactory;
 
     @Autowired

@@ -23,7 +23,10 @@ public class ApiJobRunner extends JobRunner {
         Trigger trigger = buildJobTrigger("0/10 * * * * ?");
 
 //        try{
-//            scheduler.scheduleJob(jobDetail, trigger);
+//            scheduler.scheduleJob(jobDetail, trigger); // 트리거 갱신 가능?
+
+
+
 //        }catch (SchedulerException e) {
 //            e.printStackTrace();
 //        }

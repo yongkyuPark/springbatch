@@ -1,22 +1,13 @@
-### fileJob 테스트
-POST http://localhost:8080/job/fileJobLauncher
+### controller 테스트
+POST http://localhost:8080/job/launcher
 Content-Type: application/json
 
 {
-  "requestDate": "20230913"
+  "name" : "fileJob",
+  "jobParameters": {
+    "requestDate": "20230912"
+  }
 }
-
-### apiJob 테스트
-POST http://localhost:8080/job/apiJobLauncher
-Content-Type: application/json
-
-### moveJob 테스트
-POST http://localhost:8080/job/moveJobLauncher
-Content-Type: application/json
-
-### moveJob2 테스트
-POST http://localhost:8080/job/moveJobLauncher2
-Content-Type: application/json
 
 
 

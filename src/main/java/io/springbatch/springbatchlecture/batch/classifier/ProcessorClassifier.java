@@ -8,13 +8,13 @@ import org.springframework.classify.Classifier;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProcessorClassifier<C, T> implements Classifier<C, T> {
+public class ProcessorClassifier<C, T> implements Classifier<ProductVO, ItemProcessor<?, ? extends ApiRequestVO>> {
 
     private Map<String, ItemProcessor<ProductVO, ApiRequestVO>> processorMap = new HashMap<>();
 
     @Override
-    public T classify(C classifiable) {
-        return (T)processorMap.get(((ProductVO)classifiable).getType());
+    public ItemProcessor<?, ? extends ApiRequestVO> classify(ProductVO classifiable) {
+        return processorMap.get(classifiable.getType());
     }
 
     public void setProcessorMap(Map<String, ItemProcessor<ProductVO, ApiRequestVO>> processorMap) {

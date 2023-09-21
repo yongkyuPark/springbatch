@@ -1,20 +1,12 @@
 package io.springbatch.springbatchlecture.batch.partition;
 
-import io.springbatch.springbatchlecture.annotation.MysqlRepository;
 import io.springbatch.springbatchlecture.domain.ProductVO;
 import io.springbatch.springbatchlecture.batch.job.api.QueryGenerator;
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.partition.support.Partitioner;
 import org.springframework.batch.item.ExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
-
-@RequiredArgsConstructor
-@MysqlRepository
 public class ProductPartitioner implements Partitioner {
 
     private DataSource dataSource;
