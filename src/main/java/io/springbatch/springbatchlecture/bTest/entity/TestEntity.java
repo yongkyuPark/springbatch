@@ -1,8 +1,10 @@
 package io.springbatch.springbatchlecture.bTest.entity;
 
+import io.springbatch.springbatchlecture.aTest.entity.Product;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class TestEntity {
+public class TestEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,5 +43,14 @@ public class TestEntity {
     private String rdnmadr;
     private String rdnmadrDetail;
     private String rdnmadrBuldNm;
+
+    public Product toProduct() {
+        return Product.builder()
+                .id(mberSn.longValue())
+                .name(mberNm)
+                .price(mberSn)
+                .type(password)
+                .build();
+    }
 
 }

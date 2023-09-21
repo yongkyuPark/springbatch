@@ -3,9 +3,9 @@ POST http://localhost:8080/job/launcher
 Content-Type: application/json
 
 {
-  "name" : "fileJob",
+  "name" : "moveJob3",
   "jobParameters": {
-    "requestDate": "20230912"
+    "requestDate": "20230918"
   }
 }
 
