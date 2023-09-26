@@ -19,10 +19,10 @@ public class ApiItemWriter2 extends FlatFileItemWriter<ApiRequestVO> {
 
     @Override
     public void write(Chunk<? extends ApiRequestVO> chunk) throws Exception {
-        ApiResponseVO responseVO = apiService.service(chunk.getItems());
-        System.out.println("responseVO = " + responseVO);
+        //ApiResponseVO responseVO = apiService.service(chunk.getItems());
+        //System.out.println("responseVO = " + responseVO);
 
-        chunk.getItems().forEach(item -> item.setApiResponseVO(responseVO));
+        //chunk.getItems().forEach(item -> item.setApiResponseVO(responseVO));
 
         super.setResource(new FileSystemResource("/Users/yongkyu/springbatchstudy/springbatchlecture/src/main/resources/product2.txt"));
         super.open(new ExecutionContext());
