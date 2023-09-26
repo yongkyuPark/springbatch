@@ -12,7 +12,8 @@ public class ApiStartTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
         System.out.println(" >> ApiService is started");
-
+        Thread.sleep(120000); // 1분 대기
+        //System.out.println("========== 대기 끝 !!! ==========");
         return RepeatStatus.FINISHED;
     }
 }

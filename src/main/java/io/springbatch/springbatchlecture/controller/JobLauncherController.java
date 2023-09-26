@@ -2,6 +2,7 @@ package io.springbatch.springbatchlecture.controller;
 
 import io.springbatch.springbatchlecture.domain.JobLauncherRequestVO;
 import io.springbatch.springbatchlecture.domain.ProductVO;
+import io.springbatch.springbatchlecture.service.BatchService;
 import io.springbatch.springbatchlecture.study.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.*;
@@ -12,10 +13,9 @@ import org.springframework.batch.core.launch.NoSuchJobException;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -40,10 +40,36 @@ public class JobLauncherController {
 
     private final JobRegistry jobRegistry;
 
+    private final BatchService batchService;
+
     @PostMapping("/launcher")
     public ExitStatus launchJob(@RequestBody JobLauncherRequestVO request) throws Exception {
         Job job = jobRegistry.getJob(request.getName());
         return this.jobLauncher.run(job, request.getJobParameters()).getExitStatus();
+    }
+
+    @PostMapping("/stopBatch")
+    public ResponseEntity<String> stopBatch(@RequestParam("jobName") String jobName) {
+        try{
+            batchService.batchStop(jobName);
+            return ResponseEntity.ok("Batch stop successfully");
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to stop batch");
+        }
+    }
+
+    @PostMapping("/restartBatch")
+    public ResponseEntity<String> restartBatch(@RequestParam("jobName") String jobName) {
+        try {
+            // batchService.batchRestart(jobName);
+            return ResponseEntity.ok("Batch restart successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to restart batch");
+        }
     }
 
     /**

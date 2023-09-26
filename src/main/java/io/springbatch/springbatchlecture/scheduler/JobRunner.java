@@ -20,8 +20,9 @@ public abstract class JobRunner implements ApplicationRunner {
 
     protected abstract void doRun(ApplicationArguments args);
 
-    public Trigger buildJobTrigger(String scheduleExp) {
+    public Trigger buildJobTrigger(String scheduleExp, String jobName) {
         return TriggerBuilder.newTrigger()
+                .withIdentity(jobName)
                 .withSchedule(CronScheduleBuilder.cronSchedule(scheduleExp)).build();
     }
 

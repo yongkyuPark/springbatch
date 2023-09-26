@@ -7,14 +7,14 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Data
-@Table(name = "product")
+@Table(name = "batch")
 @Builder
-public class Product {
+public class Batch {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private int price;
-    private String type;
+    private String jobName;
+    private String cron;
 
 }

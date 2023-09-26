@@ -1,6 +1,7 @@
 package io.springbatch.springbatchlecture.scheduler;
 
 import lombok.SneakyThrows;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.batch.core.Job;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 @Component
+@DisallowConcurrentExecution
 public class ApiSchJob extends QuartzJobBean {
 
     @Autowired

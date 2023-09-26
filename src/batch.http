@@ -3,11 +3,27 @@ POST http://localhost:8080/job/launcher
 Content-Type: application/json
 
 {
-  "name" : "moveJob3",
-  "jobParameters": {
-    "requestDate": "20230918"
-  }
+  "name" : "apiJob",
+  "jobParameters": ""
 }
+
+### change cron 테스트
+POST http://localhost:8080/scheduler/changeCron
+Content-Type: application/json
+
+{
+  "jobName" : "apiJob",
+  "newCronExpression": "0 0/1 * * * ?"
+}
+
+### batch stop 테스트
+POST http://localhost:8080/job/stopBatch?jobName=apiJob
+Content-Type: application/json
+
+{
+  "jobName" : "apiJob"
+}
+
 
 
 
