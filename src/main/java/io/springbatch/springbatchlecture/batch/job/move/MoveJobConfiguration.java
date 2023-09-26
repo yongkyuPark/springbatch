@@ -52,7 +52,7 @@ public class MoveJobConfiguration {
         // 데이터 조회
         return new JpaPagingItemReaderBuilder<TestEntity>()
                 .name("reader")
-                .entityManagerFactory(postgresqlEntityManagerFactory)
+                .entityManagerFactory(mysqlEntityManagerFactory)
                 .pageSize(10)
                 .queryString("SELECT t FROM TestEntity t")
                 .build();

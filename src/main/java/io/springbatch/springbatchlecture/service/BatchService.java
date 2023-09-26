@@ -37,6 +37,7 @@ public class BatchService {
         JobInstance lastJobInstance = jobExplorer.getLastJobInstance(jobName);
         JobExecution lastJobExecution = jobExplorer.getLastJobExecution(lastJobInstance);
 
+        //lastJobExecution.setId(274L);
         jobOperator.restart(lastJobExecution.getId());
     }
 

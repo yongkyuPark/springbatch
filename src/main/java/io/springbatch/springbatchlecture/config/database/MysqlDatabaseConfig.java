@@ -60,7 +60,7 @@ public class MysqlDatabaseConfig {
 
         //Hibernate 설정
         HashMap<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.dialect","org.hibernate.dialect.MySQL8Dialect");
+        properties.put("hibernate.dialect","org.hibernate.dialect.PostgreSQLDialect");
         properties.put("hibernate.physical_naming_strategy","org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
         properties.put("javax.persistence.schema-generation.database.action", "update");
         properties.put("hibernate.show_sql", "true");

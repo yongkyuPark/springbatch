@@ -43,7 +43,7 @@ public class MoveJobConfiguration2 {
     @Bean
     public Step moveStep2(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("moveStep2", jobRepository)
-                .<Product, TestEntity>chunk(10, postgresqlTransactionManager)
+                .<Product, TestEntity>chunk(10, platformTransactionManager)
                 .reader(moveReader2())
                 .processor(moveProcessor2())
                 .writer(moveWriter2())
@@ -73,7 +73,7 @@ public class MoveJobConfiguration2 {
     @Bean
     public JpaItemWriter<TestEntity> moveWriter2() {
         JpaItemWriter<TestEntity> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(postgresqlEntityManagerFactory);
+        writer.setEntityManagerFactory(mysqlEntityManagerFactory);
         writer.setUsePersist(false);
         return writer;
     }

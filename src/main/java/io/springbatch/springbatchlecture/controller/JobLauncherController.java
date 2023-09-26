@@ -63,7 +63,7 @@ public class JobLauncherController {
     @PostMapping("/restartBatch")
     public ResponseEntity<String> restartBatch(@RequestParam("jobName") String jobName) {
         try {
-            // batchService.batchRestart(jobName);
+            batchService.batchRestart(jobName);
             return ResponseEntity.ok("Batch restart successfully");
         } catch (Exception e) {
             e.printStackTrace();

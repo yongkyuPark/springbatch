@@ -3,8 +3,7 @@ POST http://localhost:8080/job/launcher
 Content-Type: application/json
 
 {
-  "name" : "apiJob",
-  "jobParameters": ""
+  "name" : "apiJob"
 }
 
 ### change cron 테스트
@@ -18,6 +17,14 @@ Content-Type: application/json
 
 ### batch stop 테스트
 POST http://localhost:8080/job/stopBatch?jobName=apiJob
+Content-Type: application/json
+
+{
+  "jobName" : "apiJob"
+}
+
+### batch restart 테스트
+POST http://localhost:8080/job/restartBatch?jobName=apiJob
 Content-Type: application/json
 
 {
